@@ -18,6 +18,9 @@ import {
 import { validateResponse } from "./ErrorSagas";
 import {
   commitToRepoSuccess,
+  deleteBranchError,
+  deleteBranchSuccess,
+  deletingBranch,
   fetchBranchesInit,
   fetchBranchesSuccess,
   fetchGitStatusInit,
@@ -780,6 +783,33 @@ export function* generateSSHKeyPairSaga(action: GenerateSSHKeyPairReduxAction) {
       action.onErrorCallback(error);
     }
     yield call(handleRepoLimitReachedError, response);
+  }
+}
+
+export function* deleteBranch() {
+  let response: ApiResponse | undefined;
+  try {
+    yield put(deletingBranch(true));
+    const applicationId: string = yield select(getCurrentApplicationId);
+    const gitMetaData: GitApplicationMetadata = yield select(
+      getCurrentAppGitMetaData,
+    );
+    response = yield GitSyncAPI.deleteBranch(
+      applicationId,
+      gitMetaData?.branchName || "",
+    );
+    const isValidResponse: boolean = yield validateResponse(
+      response,
+      false,
+      getLogToSentryFromResponse(response),
+    );
+    if (isValidResponse) {
+      yield put(deleteBranchSuccess(response?.data));
+    }
+  } catch (error) {
+    yield put(deleteBranchError(error));
+  } finally {
+    yield put(deletingBranch(false));
   }
 }
 

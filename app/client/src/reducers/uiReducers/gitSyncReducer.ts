@@ -51,8 +51,7 @@ const gitSyncReducer = createReducer(initialState, {
       connectError: null,
       commitAndPushError: null,
       pullError: null,
-      mergeError: null,
-      // reset conflicts when the modal is opened
+      mergeError: null, // reset conflicts when the modal is opened
       pullFailed: false,
       gitImportError: null,
     };
@@ -439,6 +438,27 @@ const gitSyncReducer = createReducer(initialState, {
     globalGitConfig: state.globalGitConfig,
     localGitConfig: state.localGitConfig,
   }),
+  [ReduxActionTypes.DELETE_BRANCH_SUCCESS]: (
+    state: GitSyncReducerState,
+    action: ReduxAction<any>,
+  ) => ({
+    ...state,
+    deleteBranch: action.payload,
+  }),
+  [ReduxActionErrorTypes.DELETE_BRANCH_ERROR]: (
+    state: GitSyncReducerState,
+    action: ReduxAction<any>,
+  ) => ({
+    ...state,
+    deleteBranchError: action.payload,
+  }),
+  [ReduxActionTypes.DELETING_BRANCH]: (
+    state: GitSyncReducerState,
+    action: ReduxAction<any>,
+  ) => ({
+    ...state,
+    deletingBranch: action.payload,
+  }),
 });
 
 export type GitStatusData = {
@@ -467,7 +487,13 @@ export type GitErrorType = {
   logToSentry?: boolean;
 };
 
-export type GitSyncReducerState = {
+export type GitBranchDeleteState = {
+  deleteBranch?: any;
+  deleteBranchError?: any;
+  deletingBranch?: boolean;
+};
+
+export type GitSyncReducerState = GitBranchDeleteState & {
   isGitSyncModalOpen: boolean;
   isCommitting?: boolean;
   isCommitSuccessful: boolean;

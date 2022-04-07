@@ -101,7 +101,7 @@ export const getDefaultGitBranchName = createSelector(
 export const getFetchingBranches = (state: AppState) =>
   state.ui.gitSync.fetchingBranches;
 
-export const getCurrentGitBranch = (state: AppState) => {
+export const getCurrentGitBranch = (state: AppState): string | undefined => {
   const { gitApplicationMetadata } = getCurrentApplication(state) || {};
   return gitApplicationMetadata?.branchName;
 };

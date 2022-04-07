@@ -18,3 +18,6 @@ const gitRemoteUrlRegExp = new RegExp(GIT_REMOTE_URL_PATTERN);
 
 export const isValidGitRemoteUrl = (url: string) =>
   gitRemoteUrlRegExp.test(url);
+
+export const isRemoteBranch = (name: string) => name.startsWith("origin/");
+export const isLocalBranch = (name: string) => !isRemoteBranch(name);

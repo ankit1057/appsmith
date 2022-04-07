@@ -375,3 +375,18 @@ export const importAppViaGitError = (error: any) => ({
 export const resetSSHKeys = () => ({
   type: ReduxActionTypes.RESET_SSH_KEY_PAIR,
 });
+
+export const deleteBranchSuccess = (payload: any) => ({
+  type: ReduxActionTypes.DELETE_BRANCH_SUCCESS,
+  payload,
+});
+
+export const deleteBranchError = (payload: any) => ({
+  type: ReduxActionErrorTypes.DELETE_BRANCH_ERROR,
+  payload,
+});
+
+export const deletingBranch = (payload: any) => ({
+  type: ReduxActionTypes.DELETING_BRANCH,
+  payload,
+});
