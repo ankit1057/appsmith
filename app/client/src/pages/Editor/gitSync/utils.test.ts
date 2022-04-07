@@ -1,4 +1,9 @@
-import { getIsStartingWithRemoteBranches, isValidGitRemoteUrl } from "./utils";
+import {
+  getIsStartingWithRemoteBranches,
+  isLocalBranch,
+  isRemoteBranch,
+  isValidGitRemoteUrl,
+} from "./utils";
 
 const validUrls = [
   "git@github.com:user/project.git",
@@ -58,6 +63,27 @@ describe("gitSync utils", () => {
       const expected = true;
       expect(actual).toEqual(expected);
     });
+
+    it("returns false if param:local starts with origin/", () => {
+      const actual = getIsStartingWithRemoteBranches(
+        "origin/a",
+        "origin/whateverelse",
+      );
+      const expected = false;
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns empty string if param:local is empty string", () => {
+      const actual = getIsStartingWithRemoteBranches("a", "");
+      const expected = "";
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns empty string if param:remote is empty string", () => {
+      const actual = getIsStartingWithRemoteBranches("", "");
+      const expected = "";
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe("isValidGitRemoteUrl returns true for valid urls", () => {
@@ -77,6 +103,56 @@ describe("gitSync utils", () => {
         const expected = false;
         expect(actual).toEqual(expected);
       });
+    });
+  });
+
+  describe("isRemoteBranch", () => {
+    it("returns true for branches that start with origin/", () => {
+      const branches = ["origin/", "origin/_", "origin/a", "origin/origin"];
+      const actual = branches.every(isRemoteBranch);
+      const expected = true;
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns false for branches that don't start with origin/", () => {
+      const branches = [
+        "origin",
+        "original/",
+        "oriign/_",
+        "main/",
+        "upstream/origin",
+        "develop/",
+        "release/",
+        "master/",
+      ];
+      const actual = branches.every(isRemoteBranch);
+      const expected = false;
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe("isLocalBranch", () => {
+    it("returns false for branches that start with origin/", () => {
+      const branches = ["origin/", "origin/_", "origin/a", "origin/origin"];
+      const actual = branches.every(isLocalBranch);
+      const expected = false;
+      expect(actual).toEqual(expected);
+    });
+
+    it("returns true for branches that don't start with origin/", () => {
+      const branches = [
+        "origin",
+        "original/",
+        "oriign/_",
+        "main/",
+        "upstream/origin",
+        "develop/",
+        "release/",
+        "master/",
+      ];
+      const actual = branches.every(isLocalBranch);
+      const expected = true;
+      expect(actual).toEqual(expected);
     });
   });
 });
