@@ -35,7 +35,11 @@ import { get } from "lodash";
 import Tooltip from "components/ads/Tooltip";
 import { Position } from "@blueprintjs/core";
 import Spinner from "components/ads/Spinner";
-import { isLocalBranch, isRemoteBranch } from "pages/Editor/gitSync/utils";
+import {
+  isLocalBranch,
+  isRemoteBranch,
+  removeSpecialChars,
+} from "pages/Editor/gitSync/utils";
 import AnalyticsUtil from "utils/AnalyticsUtil";
 import { useFilteredBranches } from "../hooks/useFilteredBranches";
 import { useActiveHoverIndex } from "../hooks/useActiveHoverIndex";
@@ -164,11 +168,6 @@ export function BranchesLoading() {
     </>
   );
 }
-
-export const removeSpecialChars = (value: string) => {
-  const separatorRegex = /(?![/-])\W+/;
-  return value.split(separatorRegex).join("_");
-};
 
 export function Header({
   closePopup,

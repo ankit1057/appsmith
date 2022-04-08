@@ -41,3 +41,13 @@ export const getIsActiveItem = (
 ) =>
   (isCreateNewBranchInputValid ? activeHoverIndex - 1 : activeHoverIndex) ===
   index;
+
+/**
+ * removeSpecialChars: removes non-word ([^A-Za-z0-9_]) characters except / and - from input string
+ * @param input {string} string containing non-word characters e.g. name of the branch
+ * @returns {string}
+ */
+export const removeSpecialChars = (input: string): string => {
+  const separatorRegex = /(?![/-])\W+/;
+  return input.split(separatorRegex).join("_");
+};

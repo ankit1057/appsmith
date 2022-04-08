@@ -3,6 +3,7 @@ import {
   isLocalBranch,
   isRemoteBranch,
   isValidGitRemoteUrl,
+  removeSpecialChars,
 } from "./utils";
 
 const validUrls = [
@@ -153,6 +154,53 @@ describe("gitSync utils", () => {
       const actual = branches.every(isLocalBranch);
       const expected = true;
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe("removeSpecialCharacters", () => {
+    it("replaces special characters except / and - with _", () => {
+      const inputs = [
+        "abc_def",
+        "abc-def",
+        "abc*def",
+        "abc/def",
+        "abc&def",
+        "abc%def",
+        "abc#def",
+        "abc@def",
+        "abc!def",
+        "abc,def",
+        "abc<def",
+        "abc>def",
+        "abc?def",
+        "abc.def",
+        "abc;def",
+        "abc(def",
+      ];
+
+      const expected = [
+        "abc_def",
+        "abc-def",
+        "abc_def",
+        "abc/def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+        "abc_def",
+      ];
+
+      inputs.forEach((input, index) => {
+        const result = removeSpecialChars(input);
+        expect(result).toStrictEqual(expected[index]);
+      });
     });
   });
 });
