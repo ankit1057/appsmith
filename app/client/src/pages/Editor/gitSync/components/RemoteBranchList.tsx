@@ -12,8 +12,8 @@ export function RemoteBranchList(
   switchBranch: (branch: string) => void,
 ) {
   return (
-    <>
-      {remoteBranches?.length && (
+    <div data-testid="t--git-remote-branch-list-container">
+      {remoteBranches?.length > 0 && (
         <SegmentHeader hideStyledHr title={"Remote branches"} />
       )}
       {remoteBranches.map((branch: string) => (
@@ -24,6 +24,6 @@ export function RemoteBranchList(
           onClick={() => switchBranch(branch)}
         />
       ))}
-    </>
+    </div>
   );
 }

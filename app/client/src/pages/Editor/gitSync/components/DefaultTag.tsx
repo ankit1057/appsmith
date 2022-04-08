@@ -8,9 +8,9 @@ const StyledDefaultTag = styled.div`
   justify-content: flex-end;
 `;
 
-export function DefaultTag() {
+export default function DefaultTag() {
   return (
-    <StyledDefaultTag>
+    <StyledDefaultTag data-testid="t--default-tag">
       <Button
         category={Category.tertiary}
         disabled

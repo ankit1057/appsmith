@@ -5,7 +5,7 @@ import Tooltip from "components/ads/Tooltip";
 import { isEllipsisActive } from "utils/helpers";
 import { Position } from "@blueprintjs/core";
 import Text, { TextType } from "components/ads/Text";
-import { DefaultTag } from "./DefaultTag";
+import DefaultTag from "./DefaultTag";
 
 export function BranchListItem({
   active,

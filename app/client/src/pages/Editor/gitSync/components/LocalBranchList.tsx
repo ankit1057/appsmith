@@ -21,8 +21,8 @@ export function LocalBranchList(
   switchBranch: (branch: string) => void,
 ) {
   return (
-    <>
-      {localBranches?.length && (
+    <div data-testid="t--git-local-branch-list-container">
+      {localBranches?.length > 0 && (
         <SegmentHeader hideStyledHr title={"Local branches"} />
       )}
       {localBranches.map((branch: string, index: number) => (
@@ -45,6 +45,6 @@ export function LocalBranchList(
           )}
         />
       ))}
-    </>
+    </div>
   );
 }
